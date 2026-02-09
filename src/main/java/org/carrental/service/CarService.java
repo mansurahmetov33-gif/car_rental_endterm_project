@@ -1,6 +1,6 @@
 package org.carrental.service;
 
-import org.carrental.DTO.CarRequestDTO;
+import org.carrental.dto.CarRequestDTO;
 import org.carrental.exception.CarNotFoundException;
 import org.carrental.model.Car;
 import org.carrental.repository.CarRepository;

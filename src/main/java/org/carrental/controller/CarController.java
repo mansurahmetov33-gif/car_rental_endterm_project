@@ -1,7 +1,7 @@
 package org.carrental.controller;
 
 import jakarta.validation.Valid;
-import org.carrental.DTO.CarRequestDTO;
+import org.carrental.dto.CarRequestDTO;
 import org.carrental.model.Car;
 import org.carrental.service.CarService;
 import org.springframework.web.bind.annotation.*;

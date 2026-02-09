@@ -1,4 +1,4 @@
-package org.carrental.DTO;
+package org.carrental.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
