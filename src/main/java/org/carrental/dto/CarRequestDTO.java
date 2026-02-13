@@ -3,7 +3,7 @@ package org.carrental.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
-public class CarRequestDTO {
+public class                                                                                                  CarRequestDTO {
 
     @NotBlank(message = "Name must not be empty")
     private String name;

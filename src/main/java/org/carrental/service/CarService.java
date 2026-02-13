@@ -1,5 +1,6 @@
 package org.carrental.service;
 
+import org.carrental.cache.CarCache;
 import org.carrental.dto.CarRequestDTO;
 import org.carrental.exception.CarNotFoundException;
 import org.carrental.model.Car;
@@ -19,18 +20,46 @@ public class CarService {
 
     public Car saveFromDto(CarRequestDTO dto) {
         Car car = new Car(dto.getName(), dto.getPricePerDay());
-        return carRepository.save(car);
+        Car saved = carRepository.save(car);
+
+        // очищаем кэш после добавления
+        CarCache.getInstance().clear();
+
+        return saved;
     }
 
     public Car updateFromDto(Long id, CarRequestDTO dto) {
         Car car = findById(id);
         car.setName(dto.getName());
         car.setPricePerDay(dto.getPricePerDay());
-        return carRepository.save(car);
+
+        Car updated = carRepository.save(car);
+
+        // очищаем кэш после обновления
+        CarCache.getInstance().clear();
+
+        return updated;
     }
 
     public List<Car> findAll() {
-        return carRepository.findAll();
+
+        CarCache cache = CarCache.getInstance();
+
+        // проверяем есть ли данные в кэше
+        List<Car> cachedCars = cache.get("allCars");
+
+        if (cachedCars != null) {
+            System.out.println("Returning cars from CACHE");
+            return cachedCars;
+        }
+
+        System.out.println("Fetching cars from DATABASE");
+
+        List<Car> cars = carRepository.findAll();
+
+        cache.put("allCars", cars);
+
+        return cars;
     }
 
     public Car findById(Long id) {
@@ -40,5 +69,8 @@ public class CarService {
 
     public void delete(Long id) {
         carRepository.deleteById(id);
+
+        // очищаем кэш после удаления
+        CarCache.getInstance().clear();
     }
 }
